@@ -35,7 +35,10 @@ namespace AuthenticationTutorial.Pages.Account
                 var claimsPrin = new ClaimsPrincipal(claimsId);
 
                 await HttpContext.SignInAsync(claimsPrin);
-
+                if(ReturnUrl == null)
+                {
+                    ReturnUrl = "/";
+                }
                 return LocalRedirect(ReturnUrl);
 
             }

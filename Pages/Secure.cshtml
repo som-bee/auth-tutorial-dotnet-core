@@ -6,4 +6,15 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome to secure page</h1>
+   
+</div>
+<div>
+    <h3>User Details</h3>
+    <dl>
+        @foreach (var claim in User.Claims)
+        {
+            <dt>@claim.Type</dt>
+            <dd>@claim.Value</dd>
+        }
+    </dl>
 </div>
