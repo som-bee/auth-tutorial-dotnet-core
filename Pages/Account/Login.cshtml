@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Login";
 }
+<div>
+
 
 <h2>Login</h2>
 
@@ -18,3 +20,9 @@
     <br />
     <button type="submit" class="btn btn-primary">Login</button>
 </form>
+<a asp-page="Google" asp-route-returnurl="@Model.ReturnUrl">
+    sign in with google
+</a>
+
+
+</div>

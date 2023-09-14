@@ -19,7 +19,21 @@ builder.Services.AddAuthentication("cookie")
         //redirection path when challenged
         o.LoginPath = "/account/login"; 
 
-    });
+    })
+    .AddCookie("temp")
+    .AddGoogle("Google", o =>
+    {
+        o.ClientId= "485293228353-hoiqf2bi1vbu5b5bn064gmc8plfnguh5.apps.googleusercontent.com";
+        o.ClientSecret = "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";
+        //path for listening for callback
+        //o.CallbackPath = "/signin-google"; // default
+
+        //after google handler is done cookie handler / default handler will be called to sign in the user 
+        //and start the session
+        // o.SignInScheme = "cookie"; //default
+        o.SignInScheme = "temp";
+    })
+    ;
 
 var app = builder.Build();
 
@@ -42,7 +56,7 @@ app.UseAuthentication();
 // authorization middleware
 app.UseAuthorization();
 
-app.MapRazorPages();
+app.MapRazorPages().RequireAuthorization();
 
 
 
