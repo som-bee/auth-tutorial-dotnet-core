@@ -8,8 +8,19 @@ builder.Services.AddRazorPages();
 //    options.Conventions.AddPageRoute("/Pages/Account/Login", "/account/login"); // Map /account/login to your login page.
 //});
 
+// Build the configuration
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(builder.Environment.ContentRootPath)
+    .AddUserSecrets<Program>() // Replace with your actual program type
+    .Build();
 
-//auth scheme configuration
+// Access User Secrets
+var googleClientId = configuration["GoogleClientId"];
+var googleClientSecret = configuration["GoogleClientSecret"];
+
+
+
+//auth scheme configurationz
 builder.Services.AddAuthentication("cookie")
     .AddCookie("cookie", o =>
     {
@@ -23,8 +34,8 @@ builder.Services.AddAuthentication("cookie")
     .AddCookie("temp")
     .AddGoogle("Google", o =>
     {
-        o.ClientId= "485293228353-hoiqf2bi1vbu5b5bn064gmc8plfnguh5.apps.googleusercontent.com";
-        o.ClientSecret = "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";
+        o.ClientId= googleClientId;
+        o.ClientSecret = googleClientSecret;
         //path for listening for callback
         //o.CallbackPath = "/signin-google"; // default
 
