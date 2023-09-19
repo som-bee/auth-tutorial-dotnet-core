@@ -21,7 +21,13 @@ var googleClientSecret = configuration["GoogleClientSecret"];
 
 
 //auth scheme configurationz
-builder.Services.AddAuthentication("cookie")
+//builder.Services.AddAuthentication("cookie")
+//for OpenId protocol
+builder.Services.AddAuthentication(o =>
+{
+    o.DefaultScheme = "cookie";
+    o.DefaultChallengeScheme = "oidc";
+})
     .AddCookie("cookie", o =>
     {
         o.Cookie.Name = "demo";
@@ -31,18 +37,39 @@ builder.Services.AddAuthentication("cookie")
         o.LoginPath = "/account/login"; 
 
     })
-    .AddCookie("temp")
-    .AddGoogle("Google", o =>
-    {
-        o.ClientId= googleClientId;
-        o.ClientSecret = googleClientSecret;
-        //path for listening for callback
-        //o.CallbackPath = "/signin-google"; // default
+    //.AddCookie("temp")
+    //.AddGoogle("Google", o =>
+    //{
+    //    o.ClientId= googleClientId;
+    //    o.ClientSecret = googleClientSecret;
+    //    //path for listening for callback
+    //    //o.CallbackPath = "/signin-google"; // default
 
-        //after google handler is done cookie handler / default handler will be called to sign in the user 
-        //and start the session
-        // o.SignInScheme = "cookie"; //default
-        o.SignInScheme = "temp";
+    //    //after google handler is done cookie handler / default handler will be called to sign in the user 
+    //    //and start the session
+    //    // o.SignInScheme = "cookie"; //default
+    //    o.SignInScheme = "temp";
+    //})
+    .AddOpenIdConnect("oidc", o =>
+    {
+        o.Authority = "https://demo.duendesoftware.com";
+        o.ClientId = "login";
+
+        //scopes
+        o.Scope.Clear();
+        o.Scope.Add("openid");
+        o.Scope.Add("profile");
+
+        //for storing the id token that comes from openid auth - increases the size of cookies
+        //also makes the logout functionality seamless
+        o.SaveTokens = true;
+
+        //claimAction filters out unnecessary cliams by defalut but can be cleared by
+        //o.ClaimActions.Clear();
+
+
+        //for getting raw  unmapped claims
+        o.MapInboundClaims = false;
     })
     ;
 

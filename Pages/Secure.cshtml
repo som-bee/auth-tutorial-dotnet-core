@@ -9,12 +9,21 @@
    
 </div>
 <div>
-    <h3>User Details</h3>
+    <h3>User Claims</h3>
     <dl>
-        @foreach (var claim in User.Claims)
+        @foreach (var claim in Model.Session.Claims)
         {
             <dt>@claim.Type</dt>
             <dd>@claim.Value</dd>
+        }
+    </dl>
+
+     <h3>Metadata</h3>
+    <dl>
+        @foreach (var item in Model.Session.MetaData)
+        {
+            <dt>@item.Key</dt>
+            <dd>@item.Value</dd>
         }
     </dl>
 </div>

@@ -8,9 +8,11 @@ namespace AuthenticationTutorial.Pages.Account
     {
         public async Task<IActionResult> OnGet()
         {
-            await HttpContext.SignOutAsync();
+            //await HttpContext.SignOutAsync();
 
-            return Page();
+            //return Page();
+
+            return SignOut("cookie","oidc");
         }
     }
 }
